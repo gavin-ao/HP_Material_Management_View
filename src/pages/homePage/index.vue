@@ -312,7 +312,7 @@
     }
     .containers {
       width: 100%;
-      height: calc(100% - 145px);
+      height: calc(100% - 148px);
 
       .leftNav {
         width: 100px;
@@ -408,20 +408,20 @@
     }
     .cliBtn {
       width: 100%;
-      height: 47px;
+      height: 50px;
       position: fixed;
       left: 0px;
       bottom: 0px;
       box-sizing: border-box;
-      line-height: 47px;
+      line-height: 50px;
       background-color: rgba(0, 150, 217, 1);
       color: rgba(255, 255, 255, 1);
-      font-size: 14px;
+      font-size: 18px;
       text-align: center;
       font-family: Arial;
       i {
         display: inline-block;
-        font-size: 20px;
+        font-size: 22px;
         position: relative;
         top: 3px;
       }

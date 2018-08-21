@@ -2,10 +2,10 @@
   <div class="vist-userInfo">
     <div class="proDescribe">
       <div class="productImg">
-        <img src="http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg" alt="" mode="aspectFit">
+        <img :src="imgPath" alt="" mode="aspectFit">
       </div>
       <div class="productInfo">
-        <span>{{computerInfo}}</span>
+        <span> {{computerInfo}}</span>
         <p v-for="(item, index) in computerInfoData" :key="index">
           {{item}}
         </p>
@@ -14,7 +14,7 @@
     <hr class="lines">
     <div class="configInfo">
         <div class="infoTitle">
-          推荐配置
+          <i class="icon iconfont icon-xitongpeizhi"></i>推荐配置
         </div>
       <scroll-view scroll-y>
         <div v-for="(item,index) in proConfig" :key="index" :class="{ borderLines: currentNum==item.preCtoId}" @click="configDetail(productId,item)">
@@ -46,6 +46,10 @@
         <!--</div>-->
       </scroll-view>
     </div>
+    <div class="cliBtn" @click="contactConfigInfo">
+      <i class="icon iconfont icon-xitongpeizhi"></i>
+      个性化定制
+    </div>
   </div>
 </template>
 
@@ -57,7 +61,8 @@
         productId:'',
         currentNum:'',
         imgPath:'',
-        proConfig:[]
+        proConfig:[],
+        preCtoId:''
       }
     },
     onLoad(option) {
@@ -77,7 +82,7 @@
           that.$store.state.board.computerInfoData=[]
           if (res.data.success) {
             console.log(res.data.details)
-            that.imgPath =  that.$store.state.board.urlHttp + res.data.product.imgPath;
+            that.imgPath =  that.$store.state.board.urlHttp + res.data.product.filePath;
             that.$store.state.board.computerInfoData =  res.data.details.split("\n");
             if(res.data.preCtoList&&res.data.preCtoList.length>0){
               that.currentNum = res.data.preCtoList[0].preCtoId;
@@ -116,10 +121,31 @@
     },
     methods: {
       configDetail(productId,item){
+        var that= this;
         this.currentNum = item.preCtoId;
         this.$store.state.board.computerConfigName = item.showText
+        wx.request({
+          url: that.$store.state.board.urlHttp + '/wechatapi/product/getDetailsByPreCtoId',
+          method: "POST",
+          data:{productId:productId,preCtoId: item.preCtoId},
+          header: {'content-type': 'application/x-www-form-urlencoded'},
+          success: function (res) {
+            console.log(res)
+            if (res.data.success) {
+              that.$store.state.board.computerInfoData =  res.data.details.split("\n");
+            } else {
+              wx.showToast({
+                title: '获取配置信息失败。',
+                icon: 'none',
+                duration: 1000
+              })
+            }
+          }
+        })
+      },
+      contactConfigInfo(){
         wx.navigateTo({
-          url: '../configDetail/main?productId='+productId  +"&preCtoId="+item.preCtoId
+          url: '../configDetail/main?productId='+this.productId  +"&preCtoId="+this.currentNum
         })
       }
     },
@@ -195,7 +221,7 @@
     }
     .configInfo{
       width: 100%;
-      height: calc(100% - 193px);
+      height: calc(100% - 243px);
       background-color: #F8F8F8;
       line-height: 20px;
       border-radius: 3px;
@@ -209,6 +235,13 @@
         text-align: left;
         font-family: Arial;
         margin: 10px;
+        i{
+          display: inline-block;
+          position: relative;
+          color: #666;
+          top: 3px;
+          margin-right: 3px;
+        }
       }
       scroll-view{
         width: 100%;
@@ -234,6 +267,27 @@
           border: 1px solid #0096D6;
         }
       }
+    }
+    .cliBtn {
+      width: 100%;
+      height: 50px;
+      position: fixed;
+      left: 0px;
+      bottom: 0px;
+      box-sizing: border-box;
+      line-height: 50px;
+      background-color: rgba(0, 150, 217, 1);
+      color: rgba(255, 255, 255, 1);
+      font-size: 18px;
+      text-align: center;
+      font-family: Arial;
+      i {
+        display: inline-block;
+        font-size: 22px;
+        position: relative;
+        top: 3px;
+      }
+
     }
   }
 </style>
