@@ -20,6 +20,7 @@
         <div class="productNav" @click="detailContent('2')">
           <p :class="{ bottomLines: currentNum==2}">视频</p>
         </div>
+
       </div>
       <scroll-view scroll-y :scroll-top=scrollTop :class="{detailText: currentNum==0}">
         <div>
