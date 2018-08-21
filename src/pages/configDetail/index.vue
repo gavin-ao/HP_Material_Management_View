@@ -192,7 +192,7 @@
     },
     computed: {
       computerInfo() {
-        return this.$store.state.board.computerInfoName
+        return this.$store.state.board.computerConfigName
       }
     },
     mounted() {

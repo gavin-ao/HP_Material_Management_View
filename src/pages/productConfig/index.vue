@@ -117,6 +117,7 @@
     methods: {
       configDetail(productId,item){
         this.currentNum = item.preCtoId;
+        this.$store.state.board.computerConfigName = item.showText
         wx.navigateTo({
           url: '../configDetail/main?productId='+productId  +"&preCtoId="+item.preCtoId
         })
