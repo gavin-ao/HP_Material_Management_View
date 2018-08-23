@@ -67,7 +67,7 @@
     },
     onLoad(option) {
       var that = this;
-      that.currentNum = 0;
+      that.currentNum = '';
       that.productId = option.productId
       console.log(option.productId)
       wx.request({
@@ -144,9 +144,17 @@
         })
       },
       contactConfigInfo(){
-        wx.navigateTo({
-          url: '../configDetail/main?productId='+this.productId  +"&preCtoId="+this.currentNum
-        })
+        if(this.currentNum!==''){
+          wx.navigateTo({
+            url: '../configDetail/main?productId='+this.productId  +"&preCtoId="+this.currentNum
+          })
+        }else{
+          wx.showToast({
+            title: '请选择推荐配置。',
+            icon: 'none',
+            duration: 1000
+          })
+        }
       }
     },
     async onPullDownRefresh() {
