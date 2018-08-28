@@ -7,6 +7,7 @@ const state = {
   nickName: '',
   avatarUrl: '',
   actId:'',
+  productImage:'',
   sessionID:'',
   authorizeFlag: '',
   computerInfoName:'',

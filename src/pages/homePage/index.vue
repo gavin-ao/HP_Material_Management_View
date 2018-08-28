@@ -54,7 +54,7 @@
     <div class="contactModal" :class="{maskBlock: hiddenmodalput== false}">
       <div class="maskContainer">
         <div class="maskTtitle">提示</div>
-        <div class="maskText">确定拨打电话：1340000 吗？</div>
+        <div class="maskText">确定拨打电话：{{phoneNumber}} 吗？</div>
         <div class="maskBtn">
           <button @click="cancle">取消</button>
           <button @click='confirm' class="confirm">确定</button>
@@ -98,52 +98,44 @@
         childCurNum: '',
         scrollTop: 0,
         authorLoc: false,
-        imgUrls: [
-          'https://cto.hejinkai.com/static/file/201808/1.jpg',
-          'https://cto.hejinkai.com/static/file/201808/2.jpg',
-          'https://cto.hejinkai.com/static/file/201808/3.jpg'
-        ],
+        imgUrls: [],
         dtasets: [],
         productItem: [],
-        hiddenmodalput: true
+        hiddenmodalput: true,
+        currentPage: false,
+        phoneNumber:''
       }
     },
 
-    onLoad() {
-      console.log(111111111)
+    onLoad(option) {
       var that = this;
-      that.dtasets =[];
-      that.productItem =[];
-      wx.request({
-        url: that.$store.state.board.urlHttp + '/wechatapi/product/findProDuctCatgList',
-        method: "POST",
-        header: {'content-type': 'application/x-www-form-urlencoded'},
-        success: function (res) {
-          console.log(res)
-          that.dtasets = []
-          if (res.data.success) {
-            if (res.data.data && res.data.data.length > 0) {
-              that.currentNum = res.data.data[0].catgCode;
-              that.dtasets = res.data.data;
-              that.changeNav(res.data.data[0])
-            }
-          } else {
-            wx.showToast({
-              title: '获取导航失败。',
-              icon: 'none',
-              duration: 1000
-            })
-          }
-        }
-      })
     },
     onShow() {
       var that = this;
       that.hiddenmodalput = true;
+      that.$store.state.board.authorizeFlag = '';
+      that.dtasets =[];
+      that.productItem =[];
+      that.imgUrls = []
+      that.phoneNumber = ''
+      console.log(new Date().getTime())
       wx.getSetting({
         success: (res) => {
           console.log(res);
           console.log(res.authSetting['scope.userLocation']);
+          if (res.authSetting['scope.userInfo']) {
+            // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+            wx.showLoading({
+              title: '加载中',
+            })
+            that.$store.state.board.authorizeFlag = true;
+            utils.login(that,false,function (sessionId) {
+             that.findList(sessionId);
+            })
+          }
+          else {
+            that.$store.state.board.authorizeFlag = false;
+          }
           if (res.authSetting['scope.userLocation']) {
             that.location(that, QQMapWX);
           } else {
@@ -155,6 +147,12 @@
           }
         }
       })
+    },
+    onHide() {
+      this.currentPage = false;
+    },
+    onUnload(){
+      this.currentPage = false;
     },
     onShareAppMessage(res) {
       if (res.from === 'button') {
@@ -172,12 +170,7 @@
 
     },
     methods: {
-      closePrev() {
-        this.checked = false;
-        wx.hideLoading()
-      },
       changeNav(parData) {
-        console.log(parData)
         var that = this;
         that.childCurNum = 0;
         that.scrollTop = 0;
@@ -189,17 +182,15 @@
         }
       },
       changeChildNav(chiData) {
-        console.log(chiData)
         var that = this;
         that.scrollTop = 0;
         that.childCurNum = chiData.catgCode;
         wx.request({
           url: that.$store.state.board.urlHttp + '/wechatapi/product/findProductByCatgCode',
           method: "POST",
-          data: {catgCode: chiData.catgCode},
+          data: {catgCode: chiData.catgCode,sessionID:that.$store.state.board.sessionID},
           header: {'content-type': 'application/x-www-form-urlencoded'},
           success: function (res) {
-            console.log(res)
             that.productItem = []
             if (res.data.success) {
               if (res.data.data && res.data.data.length > 0) {
@@ -222,11 +213,12 @@
                 duration: 1000
               })
             }
+            console.log(new Date().getTime())
           }
         })
       },
       detailsPage(item) {
-        // this.$store.state.board.computerInfo.name =  e.currentTarget.dataset.computername
+        // this.$store.state.board.computerConfigName = item.productName
         wx.navigateTo({
           url: '../detailPage/main?productId=' + item.productId
         })
@@ -247,7 +239,6 @@
           type: 'gcj02',
           altitude: true,
           success: (res) => {
-            console.log(res)
             qqmapsdk.reverseGeocoder({
               location: {
                 latitude: res.latitude,
@@ -255,7 +246,6 @@
               },
               success: (addressRes) => {
                 that.authorLoc = false;
-                console.log(addressRes);
                 that.$store.state.board.address = addressRes.result.address_component.province + '' + addressRes.result.address_component.district;
                 that.$store.state.board.location = addressRes.result.address_component.province;
               }
@@ -268,14 +258,55 @@
       },
       login() {
         var that = this;
-        utils.login(that,true);
+        wx.showLoading({
+          title: '加载中',
+        })
+        utils.login(that,true,function (sessionId) {
+          that.findList(sessionId);
+        });
       },
       contactInfo() {
         this.hiddenmodalput = false
       },
       confirm() {
+        //调出手机拨号盘
         wx.makePhoneCall({
-          phoneNumber: '1340000' //仅为示例，并非真实的电话号码
+          phoneNumber: this.phoneNumber
+        })
+      },
+      findList(sessionId){
+        var that = this;
+        wx.request({
+          url: that.$store.state.board.urlHttp + '/wechatapi/product/findProDuctCatgList',
+          method: "POST",
+          data:{sessionID:sessionId},
+          header: {'content-type': 'application/x-www-form-urlencoded'},
+          success: function (res) {
+            console.log(res)
+            wx.hideLoading()
+            that.currentPage = true
+
+            if (res.data.success) {
+              if (res.data.data && res.data.data.length > 0) {
+                that.currentNum = res.data.data[0].catgCode;
+                that.dtasets = res.data.data;
+                that.imgUrls = [
+                  'https://cto.hejinkai.com/static/file/201808/1.jpg',
+                  'https://cto.hejinkai.com/static/file/201808/2.jpg',
+                  'https://cto.hejinkai.com/static/file/201808/3.jpg'
+                ];
+                that.phoneNumber = '3124235'
+                that.changeNav(res.data.data[0])
+              }
+            } else {
+              wx.showToast({
+                title: '获取导航失败。',
+                icon: 'none',
+                duration: 1000
+              })
+            }
+            console.log(new Date().getTime())
+          }
         })
       }
     },

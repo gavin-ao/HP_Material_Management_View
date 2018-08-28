@@ -116,10 +116,11 @@
       console.log(22222222)
       that.productId = option.productId
       that.proInfos = ''
+      that.$store.state.board.productImage = ''
       wx.request({
         url: that.$store.state.board.urlHttp +'/wechatapi/product/getProductById',
         method: "POST",
-        data:  {productId:option.productId},
+        data:  {productId:option.productId,sessionID:that.$store.state.board.sessionID},
         header: {'content-type': 'application/x-www-form-urlencoded'},
         success: function (res) {
           console.log(res)
@@ -127,6 +128,7 @@
             if(res.data.data){
               that.proInfos = res.data.data;
               that.proInfos.filePath = that.$store.state.board.urlHttp + that.proInfos.filePath
+              that.$store.state.board.productImage = that.proInfos.filePath
               that.$store.state.board.computerInfoName  = that.proInfos.productName
             }
           }else{
@@ -139,21 +141,21 @@
         }
       })
     },
-    onShareAppMessage(res) {
-      if (res.from === 'button') {
-        // 来自页面内转发按钮
-        console.log(res.target)
-      }
-
-      return {
-        title: '分享活动',
-        path: "/pages/detailPage/main?productId="+this.productId ,
-        success: function () {
-
-        }
-      }
-
-    },
+    // onShareAppMessage(res) {
+    //   if (res.from === 'button') {
+    //     // 来自页面内转发按钮
+    //     console.log(res.target)
+    //   }
+    //
+    //   return {
+    //     title: '分享活动',
+    //     path: "/pages/detailPage/main?productId="+this.productId ,
+    //     success: function () {
+    //
+    //     }
+    //   }
+    //
+    // },
     methods: {
       detailContent(index) {
         this.currentNum = index;

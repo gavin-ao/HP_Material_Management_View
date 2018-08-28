@@ -73,7 +73,7 @@
       wx.request({
         url: that.$store.state.board.urlHttp +'/wechatapi/product/getCtoProductAndPre',
         method: "POST",
-        data:  {productId:option.productId},
+        data:  {productId:option.productId,sessionID:that.$store.state.board.sessionID},
         header: {'content-type': 'application/x-www-form-urlencoded'},
         dataType:'json',
         success: function (res) {
@@ -86,6 +86,7 @@
             that.$store.state.board.computerInfoData =  res.data.details.split("\n");
             if(res.data.preCtoList&&res.data.preCtoList.length>0){
               that.currentNum = res.data.preCtoList[0].preCtoId;
+              that.$store.state.board.computerConfigName = res.data.preCtoList[0].showText;
               that.proConfig = res.data.preCtoList;
             }else{
               wx.showToast({
@@ -104,21 +105,21 @@
         }
       })
     },
-    onShareAppMessage(res) {
-      if (res.from === 'button') {
-        // 来自页面内转发按钮
-        console.log(res.target)
-      }
-
-      return {
-        title: '分享活动',
-        path: "/pages/productConfig/main?productId="+this.productId,
-        success: function () {
-
-        }
-      }
-
-    },
+    // onShareAppMessage(res) {
+    //   if (res.from === 'button') {
+    //     // 来自页面内转发按钮
+    //     console.log(res.target)
+    //   }
+    //
+    //   return {
+    //     title: '分享活动',
+    //     path: "/pages/productConfig/main?productId="+this.productId,
+    //     success: function () {
+    //
+    //     }
+    //   }
+    //
+    // },
     methods: {
       configDetail(productId,item){
         var that= this;
@@ -127,7 +128,7 @@
         wx.request({
           url: that.$store.state.board.urlHttp + '/wechatapi/product/getDetailsByPreCtoId',
           method: "POST",
-          data:{productId:productId,preCtoId: item.preCtoId},
+          data:{productId:productId,preCtoId: item.preCtoId,sessionID:that.$store.state.board.sessionID},
           header: {'content-type': 'application/x-www-form-urlencoded'},
           success: function (res) {
             console.log(res)

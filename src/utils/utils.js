@@ -1,15 +1,14 @@
-function login(that,flag) {
-  console.log(new Date().getTime())
+function login(that, flag, func) {
   wx.login({
     success: function (res) {
       var code = res.code;
       wx.getUserInfo({
         lang: "zh_CN",
         success: function (res) {
-          console.log(new Date().getTime())
           that.$store.state.board.nickName = res.userInfo.nickName;
           that.$store.state.board.avatarUrl = res.userInfo.avatarUrl;
           var url = that.$store.state.board.urlHttp + '/wechatapi/service/newLogin';
+          console.log(new Date().getTime())
           wx.request({
             url: url,
             method: "POST",
@@ -22,12 +21,13 @@ function login(that,flag) {
             },
             header: {'content-type': 'application/x-www-form-urlencoded'},
             success: function (res) {
+              console.log(new Date().getTime())
               if (res.data.success) {
-                console.log(new Date().getTime());
-                if(flag){
+                that.$store.state.board.sessionID = res.data.sessionID;
+                if (flag) {
                   that.$store.state.board.authorizeFlag = true;
                 }
-                that.$store.state.board.sessionID = res.data.sessionID;
+                func(that.$store.state.board.sessionID)
               }
             }
           })
@@ -36,6 +36,7 @@ function login(that,flag) {
     }
   })
 }
+
 module.exports = {
   login: login
 }
