@@ -130,7 +130,7 @@
             })
             that.$store.state.board.authorizeFlag = true;
             utils.login(that,false,function (sessionId) {
-             that.findList(sessionId);
+              that.findList(sessionId);
             })
           }
           else {
@@ -324,6 +324,11 @@
     },
     mounted() {
       var that = this;
+      wx.getSystemInfo({
+        success: function(res) {
+          console.log(res)
+        }
+      })
     }
   }
 </script>

@@ -65,12 +65,15 @@
     // },
     methods: {
       goHomePage() {
-        wx.navigateBack({
-          delta: 4
-        })
+        // wx.navigateBack({
+        //   delta: 4
+        // })
         // wx.navigateTo({
         //   url: '../homePage/main'
         // })
+        wx.reLaunch({
+          url: '../homePage/main'
+        })
       }
     },
     async onPullDownRefresh() {
