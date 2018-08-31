@@ -135,6 +135,7 @@
                   for (var j = 0; j < dataSet.length; j++) {
                     if (dataSet[j].standard == 1) {
                       that.dataIndex[i].price = parseInt(dataSet[j].prices);
+                      that.dataIndex[i].priceDiff = 0;
                       that.dataIndex[i].num = dataSet[j].partsId;
                       initPrice = parseInt(dataSet[j].prices)
                       dataSet[j].priceDiff = 0;
@@ -175,6 +176,7 @@
         }
         this.dataIndex[index].num = parts.partsId
         this.dataIndex[index].price = parts.prices
+        this.dataIndex[index].priceDiff  = parts.priceDiff
         this.totalPrices(this.dataIndex);
       },
       infoCommit() {
@@ -203,11 +205,12 @@
 
       },
       totalPrices(data) {
-        this.totalPrice = 0;
+        this.totalPrice = this.standardPrice;
         this.partsIds = [];
+        console.log(data)
         for (var k = 0; k < data.length; k++) {
-          if (data[k].price) {
-            this.totalPrice += parseInt(data[k].price)
+          if (data[k].priceDiff) {
+            this.totalPrice += parseInt(data[k].priceDiff)
             this.partsIds.push(data[k].num)
           }
         }
@@ -223,6 +226,9 @@
     computed: {
       computerInfo() {
         return this.$store.state.board.computerConfigName
+      },
+      standardPrice() {
+        return this.$store.state.board.standardPrice
       }
     },
     mounted() {

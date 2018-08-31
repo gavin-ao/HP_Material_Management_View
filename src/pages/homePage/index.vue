@@ -114,6 +114,7 @@
       var that = this;
       that.hiddenmodalput = true;
       that.$store.state.board.authorizeFlag = '';
+      that.$store.state.board.standardPrice = 0;
       that.dtasets =[];
       that.productItem =[];
       that.imgUrls = []
