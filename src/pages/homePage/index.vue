@@ -287,15 +287,15 @@
             that.currentPage = true
 
             if (res.data.success) {
+              var filePathList = res.data.filePathList;
+              for(var i=0;i<filePathList.length;i++){
+                var urls = that.$store.state.board.urlHttp + filePathList[i];
+                that.imgUrls.push(urls)
+              }
+              that.phoneNumber = res.data.mobilePhone;
               if (res.data.data && res.data.data.length > 0) {
                 that.currentNum = res.data.data[0].catgCode;
                 that.dtasets = res.data.data;
-                that.imgUrls = [
-                  'https://cto.hejinkai.com/static/file/201808/1.jpg',
-                  'https://cto.hejinkai.com/static/file/201808/2.jpg',
-                  'https://cto.hejinkai.com/static/file/201808/3.jpg'
-                ];
-                that.phoneNumber = '3124235'
                 that.changeNav(res.data.data[0])
               }
             } else {
