@@ -84,6 +84,7 @@
             console.log(res.data.details)
             that.imgPath =  that.$store.state.board.urlHttp + res.data.product.filePath;
             that.$store.state.board.computerInfoData =  res.data.details.split("\n");
+            that.$store.state.board.standardPrice  = res.data.prices
             if(res.data.preCtoList&&res.data.preCtoList.length>0){
               that.currentNum = res.data.preCtoList[0].preCtoId;
               that.$store.state.board.computerConfigName = res.data.preCtoList[0].showText;
@@ -134,6 +135,7 @@
             console.log(res)
             if (res.data.success) {
               that.$store.state.board.computerInfoData =  res.data.details.split("\n");
+              that.$store.state.board.standardPrice  = res.data.prices
             } else {
               wx.showToast({
                 title: '获取配置信息失败。',

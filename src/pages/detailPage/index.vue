@@ -127,11 +127,9 @@
           if (res.data.success) {
             if(res.data.data){
               that.proInfos = res.data.data;
-
               that.proInfos.filePath = that.$store.state.board.urlHttp + that.proInfos.filePath
               that.$store.state.board.productImage = that.proInfos.filePath
               that.$store.state.board.computerInfoName  = that.proInfos.productName
-              that.$store.state.board.standardPrice  = that.proInfos.prices
             }
           }else{
             wx.showToast({
