@@ -103,13 +103,14 @@
           {name: 'otherNum1', num: '', price: 0},
           {name: 'otherNum2', num: '', price: 0}
           ],
-        totalPrice: 0
+        totalPrice: ""
       }
     },
 
     onLoad(option) {
       var that = this;
       console.log(4444444)
+      that.totalPrice = ""
       that.productId = option.productId;
       that.preCtoId = option.preCtoId;
       for (var i = 0; i < that.dataIndex.length; i++) {

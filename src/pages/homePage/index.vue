@@ -109,6 +109,7 @@
 
     onLoad(option) {
       var that = this;
+
     },
     onShow() {
       var that = this;
@@ -119,7 +120,7 @@
       that.productItem =[];
       that.imgUrls = []
       that.phoneNumber = ''
-      console.log(new Date().getTime())
+      console.log("1111: " + new Date().getTime())
       wx.getSetting({
         success: (res) => {
           console.log(res);
@@ -176,7 +177,7 @@
         that.childCurNum = 0;
         that.scrollTop = 0;
         that.currentNum = parData.catgCode;
-        if (parData.childList && parData.childList.length) {
+        if (parData.childList && parData.childList.length>0) {
           that.changeChildNav(parData.childList[0])
         } else {
           that.changeChildNav(parData)
@@ -214,7 +215,7 @@
                 duration: 1000
               })
             }
-            console.log(new Date().getTime())
+            console.log("6666: " + new Date().getTime())
           }
         })
       },
@@ -286,9 +287,10 @@
             console.log(res)
             wx.hideLoading()
             that.currentPage = true
-
             if (res.data.success) {
+              console.log("5555: " + new Date().getTime())
               var filePathList = res.data.filePathList;
+              that.imgUrls = [];
               for(var i=0;i<filePathList.length;i++){
                 var urls = that.$store.state.board.urlHttp + filePathList[i];
                 that.imgUrls.push(urls)
@@ -306,7 +308,6 @@
                 duration: 1000
               })
             }
-            console.log(new Date().getTime())
           }
         })
       }
