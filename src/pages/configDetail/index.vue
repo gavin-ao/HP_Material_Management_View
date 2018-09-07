@@ -210,7 +210,7 @@
         this.partsIds = [];
         console.log(data)
         for (var k = 0; k < data.length; k++) {
-          if (data[k].priceDiff) {
+          if (data[k].priceDiff || data[k].priceDiff==0 ) {
             this.totalPrice += parseInt(data[k].priceDiff)
             this.partsIds.push(data[k].num)
           }

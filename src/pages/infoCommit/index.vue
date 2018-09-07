@@ -2,6 +2,7 @@
   <div class="vist-userInfo">
     <div class="commitSuc">
       <p><i class="icon iconfont icon-chenggong"></i>提交成功！</p>
+      <!--<p> <icon type="success" size="40"/>提交成功！</p>-->
     </div>
     <div class="commitInfo">
       <div class="commitTitle">
