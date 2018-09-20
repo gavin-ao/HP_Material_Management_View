@@ -7,8 +7,9 @@
     onShow(option) {
       var that = this;
       console.log(option)
+
       if(option.path&&option.path != 'pages/homePage/main'){
-      // if(option.path){
+        // if(option.path){
         wx.redirectTo({
           url: '/pages/homePage/main'
         })

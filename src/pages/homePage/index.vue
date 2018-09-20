@@ -103,7 +103,7 @@
         productItem: [],
         hiddenmodalput: true,
         currentPage: false,
-        phoneNumber:''
+        phoneNumber: ''
       }
     },
 
@@ -116,8 +116,8 @@
       that.hiddenmodalput = true;
       that.$store.state.board.authorizeFlag = '';
       that.$store.state.board.standardPrice = 0;
-      that.dtasets =[];
-      that.productItem =[];
+      that.dtasets = [];
+      that.productItem = [];
       that.imgUrls = []
       that.phoneNumber = ''
       console.log("1111: " + new Date().getTime())
@@ -125,13 +125,14 @@
         success: (res) => {
           console.log(res);
           console.log(res.authSetting['scope.userLocation']);
+
           if (res.authSetting['scope.userInfo']) {
             // 已经授权，可以直接调用 getUserInfo 获取头像昵称
             wx.showLoading({
               title: '加载中',
             })
             that.$store.state.board.authorizeFlag = true;
-            utils.login(that,false,function (sessionId) {
+            utils.login(that, false, function (sessionId) {
               that.findList(sessionId);
             })
           }
@@ -153,7 +154,7 @@
     onHide() {
       this.currentPage = false;
     },
-    onUnload(){
+    onUnload() {
       this.currentPage = false;
     },
     onShareAppMessage(res) {
@@ -177,7 +178,7 @@
         that.childCurNum = 0;
         that.scrollTop = 0;
         that.currentNum = parData.catgCode;
-        if (parData.childList && parData.childList.length>0) {
+        if (parData.childList && parData.childList.length > 0) {
           that.changeChildNav(parData.childList[0])
         } else {
           that.changeChildNav(parData)
@@ -187,10 +188,11 @@
         var that = this;
         that.scrollTop = 0;
         that.childCurNum = chiData.catgCode;
+        console.log(chiData)
         wx.request({
           url: that.$store.state.board.urlHttp + '/wechatapi/product/findProductByCatgCode',
           method: "POST",
-          data: {catgCode: chiData.catgCode,sessionID:that.$store.state.board.sessionID},
+          data: {catgCode: chiData.catgCode, sessionID: that.$store.state.board.sessionID},
           header: {'content-type': 'application/x-www-form-urlencoded'},
           success: function (res) {
             that.productItem = []
@@ -263,7 +265,7 @@
         wx.showLoading({
           title: '加载中',
         })
-        utils.login(that,true,function (sessionId) {
+        utils.login(that, true, function (sessionId) {
           that.findList(sessionId);
         });
       },
@@ -276,12 +278,12 @@
           phoneNumber: this.phoneNumber
         })
       },
-      findList(sessionId){
+      findList(sessionId) {
         var that = this;
         wx.request({
           url: that.$store.state.board.urlHttp + '/wechatapi/product/findProDuctCatgList',
           method: "POST",
-          data:{sessionID:sessionId},
+          data: {sessionID: sessionId},
           header: {'content-type': 'application/x-www-form-urlencoded'},
           success: function (res) {
             console.log(res)
@@ -291,7 +293,7 @@
               console.log("5555: " + new Date().getTime())
               var filePathList = res.data.filePathList;
               that.imgUrls = [];
-              for(var i=0;i<filePathList.length;i++){
+              for (var i = 0; i < filePathList.length; i++) {
                 var urls = that.$store.state.board.urlHttp + filePathList[i];
                 that.imgUrls.push(urls)
               }
@@ -326,11 +328,7 @@
     },
     mounted() {
       var that = this;
-      wx.getSystemInfo({
-        success: function(res) {
-          console.log(res)
-        }
-      })
+
     }
   }
 </script>
@@ -354,7 +352,7 @@
 
       .leftNav {
         width: 100px;
-        height: 100% ;
+        height: 100%;
         float: left;
         background-color: #F5F5F5;
         scroll-view {
