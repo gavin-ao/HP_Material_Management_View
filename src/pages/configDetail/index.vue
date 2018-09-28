@@ -151,24 +151,37 @@
                   var prePartsId = that.proDetail[i].prePartsId
                   var initPrice = 0;
                   for (var j = 0; j < dataSet.length; j++) {
-                    if (dataSet[j].partsId == prePartsId) {
-                      that.dataIndex.push({name: 'otherNum' + otherIndex, num: '', price: 0})
-                      that.dataIndex[i].price = parseInt(dataSet[j].prices);
-                      that.dataIndex[i].priceDiff = 0;
-                      that.dataIndex[i].num = dataSet[j].partsId;
-                      otherIndex++;
-                      initPrice = parseInt(dataSet[j].prices)
-                      dataSet[j].priceDiff = 0;
+                    if(prePartsId!=null && prePartsId.length > 0){
+                      if (dataSet[j].partsId == prePartsId) {
+                        that.dataIndex.push({name: 'otherNum' + otherIndex, num: '', price: 0})
+                        that.dataIndex[i].price = parseInt(dataSet[j].prices);
+                        that.dataIndex[i].priceDiff = 0;
+                        that.dataIndex[i].num = dataSet[j].partsId;
+                        otherIndex++;
+                        initPrice = parseInt(dataSet[j].prices)
+                        dataSet[j].priceDiff = 0;
+                      }
+                    }else{
+                      if(dataSet[j].standard == 1 ) {
+                        that.dataIndex.push({name: 'otherNum' + otherIndex, num: '', price: 0})
+                        that.dataIndex[i].price = parseInt(dataSet[j].prices);
+                        that.dataIndex[i].priceDiff = 0;
+                        that.dataIndex[i].num = dataSet[j].partsId;
+                        otherIndex++;
+                        initPrice = parseInt(dataSet[j].prices)
+                        dataSet[j].priceDiff = 0;
+                      }
                     }
-                    // else {
-                    //   dataSet[j].priceDiff = parseInt(dataSet[j].prices) - initPrice;
-                    // }
                   }
                   for (var j = 0; j < dataSet.length; j++) {
-                    if (dataSet[j].partsId == prePartsId) {
-
-                    } else {
-                      dataSet[j].priceDiff = parseInt(dataSet[j].prices) - initPrice;
+                    if(prePartsId!=null && prePartsId.length > 0){
+                      if (dataSet[j].partsId != prePartsId) {
+                        dataSet[j].priceDiff = parseInt(dataSet[j].prices) - initPrice;
+                      }
+                    }else{
+                      if(dataSet[j].standard != 1 ) {
+                        dataSet[j].priceDiff = parseInt(dataSet[j].prices) - initPrice;
+                      }
                     }
                   }
                 }
