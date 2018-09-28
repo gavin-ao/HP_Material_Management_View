@@ -166,7 +166,8 @@
                 }
               }
               console.log(that.proDetail)
-              that.totalPrices(that.dataIndex);
+              // that.totalPrices(that.dataIndex);
+              that.totalPrice = that.standardPrice;
             }
           }
         }
@@ -189,16 +190,19 @@
     // },
     methods: {
       detailChange(index, parts) {
-        var dataSet = this.proDetail[index].parts;
-        for (var i = 0; i < dataSet.length; i++) {
-          if (dataSet[i].standard) {
-            dataSet[i].standard = '';
-          }
-        }
+        console.log(parts)
+        // var dataSet = this.proDetail[index].parts;
+        // for (var i = 0; i < dataSet.length; i++) {
+        //   if (dataSet[i].standard) {
+        //     dataSet[i].standard = '';
+        //   }
+        // }
         this.dataIndex[index].num = parts.partsId
+        this.dataIndex[index].priceDiff = parts.prices - this.dataIndex[index].price
         this.dataIndex[index].price = parts.prices
-        this.dataIndex[index].priceDiff = parts.priceDiff
-        this.totalPrices(this.dataIndex);
+        // this.dataIndex[index].priceDiff = parts.priceDiff
+        // this.totalPrices(this.dataIndex);
+        this.totalPrices(this.dataIndex[index].priceDiff);
       },
       infoCommit() {
         var that = this;
@@ -226,13 +230,14 @@
 
       },
       totalPrices(data) {
-        this.totalPrice = this.standardPrice;
+        // this.totalPrice = this.standardPrice;
         this.partsIds = [];
+        this.totalPrice += parseInt(data)
         console.log(data)
-        for (var k = 0; k < data.length; k++) {
-          if (data[k].priceDiff || data[k].priceDiff == 0) {
-            this.totalPrice += parseInt(data[k].priceDiff)
-            this.partsIds.push(data[k].num)
+        for (var k = 0; k < this.dataIndex.length; k++) {
+          if (this.dataIndex[k].priceDiff || this.dataIndex[k].priceDiff == 0) {
+            // this.totalPrice += parseInt(data[k].priceDiff)
+            this.partsIds.push(this.dataIndex[k].num)
           }
         }
       }
