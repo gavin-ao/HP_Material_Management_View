@@ -17,14 +17,16 @@
             <i class="icon iconfont icon-diannao" v-if="index==1"></i>
             <i class="icon iconfont icon-bijibendiannao" v-if="index==2"></i>
             {{item.catgName}}
-            <div class="childModel" v-if="item.childList.length>0" v-for="(items,ind) in item.childList" :key="ind"
-                 :data-childid="items.catgCode"
-                 :class="{ childHotModel: childCurNum==items.catgCode,childDis: currentNum==item.catgCode}"
-                 @click="changeChildNav(items)" @touchstart.stop='changeChildNav(items)'>
-              <p>
-                {{items.catgName}}
-              </p>
-            </div>
+            <scroll-view scroll-y :class="{ childDis: currentNum==item.catgCode}"   v-if="item.childList&&item.childList.length>0" >
+                <div class="childModel"  v-for="(items,ind) in item.childList" :key="ind"
+                     :data-childid="items.catgCode"
+                     :class="{ childHotModel: childCurNum==items.catgCode,childDis: currentNum==item.catgCode}"
+                     @click="changeChildNav(items)" @touchstart.stop='changeChildNav(items)'>
+                  <p>
+                    {{items.catgName}}
+                  </p>
+                </div>
+            </scroll-view>
           </div>
         </scroll-view>
       </div>
@@ -378,30 +380,39 @@
               width: 17px;
               font-size: 19px;
             }
-            .childModel {
-              width: 100%;
-              /*height: 50px;*/
-              line-height: 49px;
-              font-size: 12px;
-              color: #0096D6;
-              text-align: center;
-              border-bottom: 1px solid #F5F5F5;
-              box-sizing: border-box;
-              display: none;
-              background-color: #FFF;
-              p {
-                line-height: 50px;
-              }
 
+            scroll-view {
+              height: 300px;
+              display: none;
+              .childModel {
+                width: 100%;
+                /*height: 50px;*/
+                line-height: 49px;
+                font-size: 12px;
+                color: #0096D6;
+                text-align: center;
+                border-bottom: 1px solid #F5F5F5;
+                box-sizing: border-box;
+                display: none;
+                background-color: #FFF;
+                p {
+                  line-height: 50px;
+                }
+
+              }
+              .childHotModel {
+                color: #101010;
+                background-color: #fff;
+                border-left: 2px solid #0096D6;
+              }
+              div.childDis {
+                display: block;
+              }
             }
-            .childHotModel {
-              color: #101010;
-              background-color: #fff;
-              border-left: 2px solid #0096D6;
-            }
-            div.childDis {
+            scroll-view.childDis{
               display: block;
             }
+
           }
           .hotModel {
             background-color: #0096D6;
