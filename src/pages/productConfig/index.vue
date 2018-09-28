@@ -6,9 +6,11 @@
       </div>
       <div class="productInfo">
         <span> {{computerInfo}}</span>
-        <p v-for="(item, index) in computerInfoData" :key="index">
-          {{item}}
-        </p>
+        <scroll-view scroll-y>
+          <p v-for="(item, index) in computerInfoData" :key="index">
+            {{item}}
+          </p>
+        </scroll-view>
       </div>
     </div>
     <hr class="lines">
@@ -216,12 +218,15 @@
           color: #4A4A4A;
           line-height: 30px;
         }
-        p {
-          font-size: 11px;
-          color: rgba(87, 87, 87, 0.9);
-          line-height: 18px;
+        scroll-view{
+          width: 100%;
+          height: 120px;
+          p {
+            font-size: 11px;
+            color: rgba(87, 87, 87, 0.9);
+            line-height: 18px;
+          }
         }
-
       }
     }
     .lines{
@@ -273,6 +278,11 @@
           font-family: Arial;
           background-color: #fff;
           margin-bottom: 10px;
+          word-wrap: break-word;
+          word-break: break-all;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
         .borderLines{
           border: 1px solid #0096D6;

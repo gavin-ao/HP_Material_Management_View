@@ -14,9 +14,12 @@
           <img :src="productImage" alt="" mode="aspectFit">
         </div>
         <div class="infos">
-          <p v-for="(item, index) in computerInfoData" :key="index">
-            {{item}}
-          </p>
+          <scroll-view scroll-y>
+            <p v-for="(item, index) in computerInfoData" :key="index">
+              {{item}}
+            </p>
+          </scroll-view>
+
         </div>
       </div>
       <div class="configPrice">
@@ -159,13 +162,17 @@
           width: calc(100% - 165px);
           height: 100%;
           padding-left: 25px;
-          p {
-            line-height: 20px;
-            color: rgba(87, 87, 87, 0.9);
-            font-size: 11px;
-            text-align: left;
-            font-family: Arial;
+          scroll-view{
+            height: 100%;
+            p {
+              line-height: 20px;
+              color: rgba(87, 87, 87, 0.9);
+              font-size: 11px;
+              text-align: left;
+              font-family: Arial;
+            }
           }
+
         }
       }
       .configPrice {

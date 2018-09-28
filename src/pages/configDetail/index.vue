@@ -7,11 +7,11 @@
       <div v-for="(item,index) in proDetail" :key="index">
         <p class="singleName">{{item.catg.catgName}}</p>
         <div v-if="item.parts.length>0" v-for="(items,ind) in item.parts" :key="ind"
-             :class="{ cpuBorder: standardNum==items.standard, cpuBorder: dataIndex[index].num==items.partsId}"
+             :class="{cpuBorder: dataIndex[index].num==items.partsId}"
              @click="detailChange(index,items)">
-          <span>{{items.partsName}}</span>
-          <span class="priceDiff" v-if="items.priceDiff>0">+ RMB {{items.priceDiff}}</span>
-          <span class="priceDiff" v-else-if="items.priceDiff<0">- RMB {{Math.abs(items.priceDiff)}}</span>
+          <span class="priceName">{{items.partsName}}</span>
+          <span class="priceDiff" v-if="items.priceDiff>0">+{{items.priceDiff}} RMB </span>
+          <span class="priceDiff" v-else-if="items.priceDiff<0">{{items.priceDiff}} RMB </span>
         </div>
       </div>
       <!--<div>-->
@@ -99,10 +99,25 @@
           {name: 'ddrNum', num: '', price: 0},
           {name: 'hddNum', num: '', price: 0},
           {name: 'powerNum', num: '', price: 0},
-          {name: 'osNum', num: '', price: 0},
-          {name: 'otherNum1', num: '', price: 0},
-          {name: 'otherNum2', num: '', price: 0}
-          ],
+          {name: 'osNum', num: '', price: 0}
+          // {name: 'otherNum1', num: '', price: 0},
+          // {name: 'otherNum2', num: '', price: 0},
+          // {name: 'otherNum3', num: '', price: 0},
+          // {name: 'otherNum4', num: '', price: 0},
+          // {name: 'otherNum5', num: '', price: 0},
+          // {name: 'otherNum6', num: '', price: 0},
+          // {name: 'otherNum7', num: '', price: 0},
+          // {name: 'otherNum8', num: '', price: 0},
+          // {name: 'otherNum9', num: '', price: 0},
+          // {name: 'otherNum10', num: '', price: 0},
+          // {name: 'otherNum11', num: '', price: 0},
+          // {name: 'otherNum12', num: '', price: 0},
+          // {name: 'otherNum13', num: '', price: 0},
+          // {name: 'otherNum14', num: '', price: 0},
+          // {name: 'otherNum15', num: '', price: 0},
+          // {name: 'otherNum16', num: '', price: 0},
+          // {name: 'otherNum17', num: '', price: 0}
+        ],
         totalPrice: ""
       }
     },
@@ -129,23 +144,28 @@
             if (res.data.data && res.data.data.length > 0) {
               console.log(res.data.data)
               that.proDetail = res.data.data;
+              var otherIndex = 1;
               for (var i = 0; i < that.proDetail.length; i++) {
                 if (that.proDetail[i].parts) {
                   var dataSet = that.proDetail[i].parts;
-                  var initPrice = '';
+                  var prePartsId = that.proDetail[i].prePartsId
+                  var initPrice = 0;
                   for (var j = 0; j < dataSet.length; j++) {
-                    if (dataSet[j].standard == 1) {
+                    if (dataSet[j].partsId == prePartsId) {
+                      that.dataIndex.push({name: 'otherNum' + otherIndex, num: '', price: 0})
                       that.dataIndex[i].price = parseInt(dataSet[j].prices);
-                      that.dataIndex[i].priceDiff = 0;
+                      that.dataIndex[i].priceDiff = parseInt(dataSet[j].prices);
                       that.dataIndex[i].num = dataSet[j].partsId;
+                      otherIndex++;
                       initPrice = parseInt(dataSet[j].prices)
-                      dataSet[j].priceDiff = 0;
+                      dataSet[j].priceDiff = parseInt(dataSet[j].prices);
                     } else {
                       dataSet[j].priceDiff = parseInt(dataSet[j].prices) - initPrice;
                     }
                   }
                 }
               }
+              console.log(that.proDetail)
               that.totalPrices(that.dataIndex);
             }
           }
@@ -177,7 +197,7 @@
         }
         this.dataIndex[index].num = parts.partsId
         this.dataIndex[index].price = parts.prices
-        this.dataIndex[index].priceDiff  = parts.priceDiff
+        this.dataIndex[index].priceDiff = parts.priceDiff
         this.totalPrices(this.dataIndex);
       },
       infoCommit() {
@@ -210,7 +230,7 @@
         this.partsIds = [];
         console.log(data)
         for (var k = 0; k < data.length; k++) {
-          if (data[k].priceDiff || data[k].priceDiff==0 ) {
+          if (data[k].priceDiff || data[k].priceDiff == 0) {
             this.totalPrice += parseInt(data[k].priceDiff)
             this.partsIds.push(data[k].num)
           }
@@ -289,18 +309,28 @@
             font-family: Arial;
             margin-left: 10px;
             line-height: 50px;
-            float: left;
+
+          }
+          span.priceName {
+            /*float: left;*/
+            width: 70%;
+            word-wrap: break-word;
+            word-break: break-all;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
           }
           span.priceDiff {
             float: right;
+            /*width: 25%;*/
             margin-right: 10px;
           }
         }
         div.cpuBorder {
           border: 2px solid #0096D9;
-          span {
-            line-height: 48px;
-          }
+          /*span {*/
+          /*line-height: 48px;*/
+          /*}*/
         }
       }
     }
