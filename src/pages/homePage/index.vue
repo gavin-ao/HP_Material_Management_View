@@ -21,7 +21,7 @@
                 <div class="childModel"  v-for="(items,ind) in item.childList" :key="ind"
                      :data-childid="items.catgCode"
                      :class="{ childHotModel: childCurNum==items.catgCode,childDis: currentNum==item.catgCode}"
-                     @click="changeChildNav(items)" @touchstart.stop='changeChildNav(items)'>
+                     @click.stop="changeChildNav(items)">
                   <p>
                     {{items.catgName}}
                   </p>
@@ -186,11 +186,12 @@
           that.changeChildNav(parData)
         }
       },
-      changeChildNav(chiData) {
+      changeChildNav(chiData,e) {
         var that = this;
         that.scrollTop = 0;
         that.childCurNum = chiData.catgCode;
         console.log(chiData)
+
         wx.request({
           url: that.$store.state.board.urlHttp + '/wechatapi/product/findProductByCatgCode',
           method: "POST",
@@ -397,6 +398,11 @@
                 background-color: #FFF;
                 p {
                   line-height: 50px;
+                  word-wrap: break-word;
+                  word-break: break-all;
+                  white-space: nowrap;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
                 }
 
               }
