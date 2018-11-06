@@ -145,7 +145,7 @@
     font-size: 22px;
     width: 100%;
     height: 100%;
-    background-color: #fff;
+    //background-color: #fff;
     font-family: Arial !important;
     /*background-color: red;*/
     .imgShow {
@@ -160,12 +160,12 @@
       margin: 20px auto;
     }
     .productPrice {
-      color: #E51C23;
+      color: rgba(221,168,49,1);
       font-size: 16px;
       margin-left: 20px;
     }
     .productTitle {
-      color: #4A4A4A;
+      color: rgba(140,140,140,1);
       font-size: 20px;
       text-align: left;
       margin-left: 20px;

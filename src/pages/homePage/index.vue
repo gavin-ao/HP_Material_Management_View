@@ -357,7 +357,7 @@
         width: 100px;
         height: 100%;
         float: left;
-        background-color: #F5F5F5;
+        background-color: rgba(35,35,35,1);
         scroll-view {
           height: 100%;
           .modeles {
@@ -365,7 +365,7 @@
             /*height: 50px;*/
             line-height: 49px;
             font-size: 14px;
-            color: #0096D6;
+            color: rgba(255,255,255,1);
             border-bottom: 1px solid #fff;
             text-align: left;
             box-sizing: border-box;
@@ -390,12 +390,12 @@
                 /*height: 50px;*/
                 line-height: 49px;
                 font-size: 12px;
-                color: #0096D6;
+                color: rgba(255,255,255,1);
                 text-align: center;
                 border-bottom: 1px solid #F5F5F5;
                 box-sizing: border-box;
                 display: none;
-                background-color: #FFF;
+                background-color: rgba(35,35,35,1);
                 p {
                   line-height: 50px;
                   word-wrap: break-word;
@@ -403,12 +403,13 @@
                   white-space: nowrap;
                   overflow: hidden;
                   text-overflow: ellipsis;
+
                 }
 
               }
               .childHotModel {
-                color: #101010;
-                background-color: #fff;
+                color: rgba(255,255,255,1);
+                background-color: rgba(0,0,0,1);
                 border-left: 2px solid #0096D6;
               }
               div.childDis {
@@ -421,7 +422,7 @@
 
           }
           .hotModel {
-            background-color: #0096D6;
+            background-color: rgba(35,35,35,1);
             color: #fff;
             border-bottom: 0px;
           }
@@ -439,7 +440,10 @@
             width: 256px;
             height: 160px;
             margin: 20px auto;
-            background-color: #F5F5F5;
+            background: -webkit-linear-gradient(left,rgba(26,26,26,1),rgba(62,62,62,1), rgba(26,26,26,1)); /* Safari 5.1 - 6.0 */
+            background: -o-linear-gradient(left,rgba(26,26,26,1),rgba(62,62,62,1), rgba(26,26,26,1)); /* Opera 11.1 - 12.0 */
+            background: -moz-linear-gradient(left,rgba(26,26,26,1),rgba(62,62,62,1), rgba(26,26,26,1)); /* Firefox 3.6 - 15 */
+            background: linear-gradient(to right,rgba(26,26,26,1),rgba(62,62,62,1), rgba(26,26,26,1)); /* 标准的语法 */
             text-align: center;
             .rightImg {
               width: 242px;
@@ -451,7 +455,7 @@
               height: 23px;
               margin-top: 5px;
               font-size: 10px;
-              color: #5A5A5A;
+              color: rgba(140,140,140,1);
               line-height: 15px;
             }
           }

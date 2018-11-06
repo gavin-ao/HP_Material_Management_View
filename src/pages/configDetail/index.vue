@@ -310,6 +310,7 @@
       height: calc(100% - 95px);
       padding: 10px 20px;
       padding-bottom: 0px;
+      background-color: rgba(255,255,255,1);
       div {
         font-weight: normal;
         .singleName {
