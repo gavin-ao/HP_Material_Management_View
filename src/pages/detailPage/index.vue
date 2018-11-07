@@ -12,7 +12,7 @@
     <div class="productDetail">
       <div class="productTopNav">
         <div class="productNav" @click="detailContent('0')">
-          <p :class="{ bottomLines: currentNum==0}">概述</p>
+          <p :class="{ bottomLines: currentNum==0 }">概述</p>
         </div>
         <div class="productNav" @click="detailContent('1')">
           <p :class="{ bottomLines: currentNum==1}">规格</p>
@@ -186,6 +186,7 @@
           border-bottom: 1px solid #F5F5F5;
           p{
             width: calc(100% - 40px);
+            color:rgba(140,140,140,1);
             margin: 0 auto;
           }
           p.bottomLines {

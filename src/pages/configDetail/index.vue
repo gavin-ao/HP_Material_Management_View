@@ -378,7 +378,8 @@
         text-align: center;
         border: 1px solid rgba(0, 150, 217, 1);
         box-sizing: border-box;
-        color: rgba(16, 16, 16, 1);
+        color: rgba(0, 0,0, 1);
+        background-color: rgba(255, 255, 255, 1);
         font-size: 14px;
         font-family: Arial;
       }
